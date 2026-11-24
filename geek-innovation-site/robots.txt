@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://geek-innovation.com/sitemap.xml
