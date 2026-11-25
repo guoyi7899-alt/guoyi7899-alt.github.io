@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TikTok sandbox posting demo — 極客創新有限公司</title>
+  <meta name="description" content="Sandbox Login Kit and Direct Post demo for the 極客創新有限公司 TikTok app. Authorization returns to the registered callback. No client secret or access token is stored on this website.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://geek-innovation.com/tiktok-demo/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=Syne:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body data-demo-page="start">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="../index.html">
+        <img class="logo-mark" src="../assets/favicon.svg" width="30" height="30" alt="">
+        <span>
+          <span class="logo-text">極客創新</span>
+          <span class="logo-brands">KIMMOO · DIGIX</span>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav id="site-nav" class="site-nav" aria-label="Primary">
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../brands/kimmoo.html">KIMMOO</a></li>
+          <li><a href="../brands/digix.html">DIGIX</a></li>
+          <li><a href="../products/fans.html">Fans</a></li>
+          <li><a href="../products/hand-warmers.html">Hand Warmers</a></li>
+          <li><a href="../products/home.html">Home &amp; Kitchen</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <main id="main">
+    <header class="page-hero">
+      <div class="wrap-narrow">
+        <p class="eyebrow">TikTok for Developers</p>
+        <h1>Sandbox posting demo</h1>
+        <p class="lede">This is the public Direct Post walkthrough for the 極客創新有限公司 TikTok app. A reviewer authorizes with Login Kit, returns to the registered callback, and posts a short private video.</p>
+      </div>
+    </header>
+    <div class="wrap">
+      <noscript>
+        <div class="notice">
+          <p>This demo needs JavaScript to reach the Worker and to open TikTok Login Kit. The page still does not contain a client secret or an access token.</p>
+        </div>
+      </noscript>
+      <ol class="demo-steps">
+        <li>
+          <span class="step-num">Step 1</span>
+          <strong>Authorize</strong>
+          <p>Continue with TikTok. The public client key comes from the Worker. The client secret never leaves the Worker.</p>
+        </li>
+        <li>
+          <span class="step-num">Step 2</span>
+          <strong>Return</strong>
+          <p>TikTok redirects to the registered callback. That page exchanges the one-time code on the Worker and shows only the open ID, scope, and expiry.</p>
+        </li>
+        <li>
+          <span class="step-num">Step 3</span>
+          <strong>Post</strong>
+          <p>Choose the sample video and Only me, then post. The Worker sends a sandbox Direct Post with <span class="demo-code">PULL_FROM_URL</span> and <span class="demo-code">SELF_ONLY</span>.</p>
+        </li>
+      </ol>
+
+      <div class="demo-grid">
+        <article class="contact-card" id="authorize">
+          <h2>Authorize with TikTok</h2>
+          <p>Login Kit uses <span class="demo-code">user.info.basic</span> and <span class="demo-code">video.publish</span>. The redirect URI is exactly <a href="https://geek-innovation.com/tiktok-demo/callback/">https://geek-innovation.com/tiktok-demo/callback/</a>. Use a private sandbox test account.</p>
+          <p id="health-pill" class="demo-pill wait">Checking</p>
+          <p id="health-text" role="status">Checking the Worker…</p>
+          <p id="config-pill" class="demo-pill wait">Checking</p>
+          <p id="config-text" role="status">Asking the Worker for the public client key…</p>
+          <div class="demo-actions">
+            <button class="btn btn-primary" id="authorize-button" type="button" disabled>Continue with TikTok</button>
+            <a class="btn btn-ghost" href="callback/">Open the callback</a>
+          </div>
+          <p id="authorize-note" class="form-note" role="status">Checking whether the Worker can start Login Kit.</p>
+        </article>
+        <article class="contact-card">
+          <h2>Sample video</h2>
+          <div class="demo-video">
+            <video id="preview" controls playsinline preload="metadata" width="640" height="360" src="media/sample.mp4">
+              A short unbranded sample clip.
+            </video>
+          </div>
+          <p id="duration-note" class="form-note">Unbranded 4-second H.264 clip, 640×360, 24 fps, no audio and no burned-in text. About 19 KB.</p>
+          <p class="form-note">TikTok pulls <a href="https://geek-innovation.com/tiktok-demo/media/sample.mp4">https://geek-innovation.com/tiktok-demo/media/sample.mp4</a> with <span class="demo-code">PULL_FROM_URL</span>. The domain, or the URL prefix for this file, must be verified on the TikTok app. The address must stay on https and must not redirect.</p>
+        </article>
+      </div>
+
+      <div class="demo-stack">
+        <article class="contact-card">
+          <h2>What the reviewer can check</h2>
+          <dl class="demo-specs">
+            <dt>Authorize URL</dt>
+            <dd class="demo-code">https://www.tiktok.com/v2/auth/authorize/</dd>
+            <dt>Scopes</dt>
+            <dd class="demo-code">user.info.basic,video.publish</dd>
+            <dt>Redirect URI</dt>
+            <dd class="demo-code">https://geek-innovation.com/tiktok-demo/callback/</dd>
+            <dt>Worker</dt>
+            <dd class="demo-code">https://geek-innovation-api.guoyi4491.workers.dev</dd>
+            <dt>Token exchange</dt>
+            <dd>The callback sends <span class="demo-code">{ code, redirect_uri }</span> to <span class="demo-code">POST /oauth/token</span>. A success body is only <span class="demo-code">ok</span>, <span class="demo-code">open_id</span>, <span class="demo-code">scope</span>, <span class="demo-code">expires_in</span>, and <span class="demo-code">token_type</span>.</dd>
+            <dt>Direct Post</dt>
+            <dd>The callback sends the caption, <span class="demo-code">SELF_ONLY</span>, and the video URL to <span class="demo-code">POST /publish</span>. The Worker is expected to call TikTok’s video init endpoint. If that route is missing, the page says so and does not pretend the video was posted.</dd>
+          </dl>
+          <p class="form-note">This demo does not create an account on geek-innovation.com. TikTok login is only the Login Kit step for the sandbox post. See the <a href="../privacy.html">Privacy Policy</a> and <a href="../terms.html">Terms of Service</a>.</p>
+        </article>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand">極客創新</p>
+        <p>極客創新有限公司 markets consumer electronics under the KIMMOO and DIGIX brands. Products are sold in the United States through Amazon and TikTok Shop.</p>
+      </div>
+      <div>
+        <h2>Explore</h2>
+        <ul>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../brands/kimmoo.html">KIMMOO</a></li>
+          <li><a href="../brands/digix.html">DIGIX</a></li>
+          <li><a href="../products/fans.html">Fans</a></li>
+          <li><a href="../products/hand-warmers.html">Hand Warmers</a></li>
+          <li><a href="../products/home.html">Home &amp; Kitchen</a></li>
+          <li><a href="../contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2>Shop</h2>
+        <ul>
+          <li><a href="https://www.amazon.com/stores/KIMMOO/page/CBEB39C4-6416-4842-B92B-D0C92CF2B336" rel="noopener noreferrer">KIMMOO on Amazon</a></li>
+          <li><a href="https://www.amazon.com/stores/CoolBreezeStylishEase/page/DD595B02-49E1-448D-BCC0-FB9B03B9657A" rel="noopener noreferrer">DIGIX on Amazon</a></li>
+          <li><a href="https://shop.tiktok.com/us/pdp/kimmoo-4-in-1-portable-turbo-fan-200-speed-21000-rpm-usb/1732293230766231873" rel="noopener noreferrer">KIMMOO fan on TikTok Shop</a></li>
+          <li><a href="https://shop.tiktok.com/us/pdp/portable-refrigeration-handheld-turbo-fan-200-speed-settings/1732215991575417153" rel="noopener noreferrer">Handheld turbo fan on TikTok Shop</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p>© 極客創新有限公司. This is an official brand website. Registered office details will be added once confirmed.</p>
+      <nav class="legal-links" aria-label="Legal">
+        <a href="../privacy.html">Privacy Policy</a>
+        <a href="../terms.html">Terms of Service</a>
+        <a href="./" aria-current="page">TikTok demo</a>
+      </nav>
+    </div>
+  </footer>
+  <script src="../js/site.js" defer></script>
+  <script src="../js/tiktok-demo.js" defer></script>
+</body>
+</html>
