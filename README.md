@@ -20,6 +20,10 @@ This is a brand site only. It has no cart, checkout, or login. Product purchases
 - `/contact.html` — Contact (`mailto:contact@geek-innovation.com`)
 - `/privacy` and `/privacy.html` — Privacy Policy
 - `/terms` and `/terms.html` — Terms of Service
+- `/tiktok-demo/` — Sandbox TikTok Login Kit and Direct Post demo
+- `/tiktok-demo/callback/` — Registered Login Kit redirect for that demo
+
+The demo calls the existing Cloudflare Worker at `https://geek-innovation-api.guoyi4491.workers.dev`. The client secret, access token, and refresh token are not in this repository. The sample clip for `PULL_FROM_URL` is `/tiktok-demo/media/sample.mp4`.
 
 Registered office details are not published yet and will be added once confirmed.
 
@@ -95,6 +99,8 @@ Use these only after `https://geek-innovation.com` loads over HTTPS:
 - Privacy Policy: `https://geek-innovation.com/privacy`
 - Web/Desktop URL: `https://geek-innovation.com/`
 - Company contact email: `contact@geek-innovation.com`
+- Sandbox posting demo: `https://geek-innovation.com/tiktok-demo/`
+- Login Kit redirect URI: `https://geek-innovation.com/tiktok-demo/callback/`
 
 Do not reuse older temporary hosts (here.now, ship.place).
 
